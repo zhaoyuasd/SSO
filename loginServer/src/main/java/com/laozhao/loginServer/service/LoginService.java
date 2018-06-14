@@ -19,6 +19,7 @@ public class LoginService {
 	
 	public String processLogin(HttpServletRequest req, HttpServletResponse resp)
 	{
+		 
 		 String username=req.getParameter("username");
 		 String password=req.getParameter("password");
 		 User   user=checkUserInfo(username,password);  //验证用户

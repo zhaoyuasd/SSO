@@ -122,4 +122,9 @@ public class IPUtil {
 
         return os +" --- "+ browser ;
     }
+    
+    public static String getTheWebUrl(HttpServletRequest request)
+    {
+    	return  request.getServerName()+request.getRequestURI();
+    }
 }
