@@ -36,7 +36,7 @@ public class EncrypRSA {
 			//Cipher负责完成加密或解密工作，基于RSA  
 			///RSA/None/PKCS1Padding  这种模式jdk8是不支持的
 			//RSA/ECB/NoPadding
-			Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
+			Cipher cipher = Cipher.getInstance("RSA");
 			//根据公钥，对Cipher对象进行初始化
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 			byte[] resultBytes = cipher.doFinal(srcBytes);
@@ -59,7 +59,7 @@ public class EncrypRSA {
 	protected byte[] decrypt(Key privateKey,byte[] srcBytes) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException{
 		if(privateKey!=null){
 			//Cipher负责完成加密或解密工作，基于RSA
-			Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
+			Cipher cipher = Cipher.getInstance("RSA");
 			//根据公钥，对Cipher对象进行初始化
 			cipher.init(Cipher.DECRYPT_MODE, privateKey);
 			byte[] resultBytes = cipher.doFinal(srcBytes);
@@ -77,7 +77,7 @@ public class EncrypRSA {
 	 * @throws InvalidKeyException 
 	 */
 	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-		//Security.addProvider(new com.sun.crypto.provider.SunJCE());
+		Security.addProvider(new com.sun.crypto.provider.SunJCE());
 		EncrypRSA rsa = new EncrypRSA();
 		String msg = "郭XX-精品相声";
 		//KeyPairGenerator类用于生成公钥和私钥对，基于RSA算法生成对象
