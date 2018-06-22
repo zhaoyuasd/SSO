@@ -2,6 +2,7 @@ package com.laozhao.EncrypDES3;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.Security;
 
 import javax.crypto.BadPaddingException;
@@ -33,7 +34,10 @@ public class EncrypDES3 {
 	public EncrypDES3() throws NoSuchAlgorithmException, NoSuchPaddingException {
 	//	Security.addProvider(new com.sun.crypto.provider.SunJCE());
 		// 实例化支持DES算法的密钥生成器(算法名称命名需按规定，否则抛出异常)
+		String password="testkey";
 		keygen = KeyGenerator.getInstance("DESede");
+		//要生成多少位，只需要修改这里即可112, 168
+		keygen.init(112, new SecureRandom(password.getBytes()));
 		// 生成密钥
 		deskey = keygen.generateKey();
 		// 生成Cipher对象,指定其支持的DES算法

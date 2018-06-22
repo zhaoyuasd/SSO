@@ -1,7 +1,6 @@
-package com.laozhao.DES;
+package com.laozhao.EncrypAES;
 
 
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.Security;
@@ -13,7 +12,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
-public class EncrypDES {
+public class EncrypAESTestKey {
 	
 	//KeyGenerator 提供对称密钥生成器的功能，支持各种算法
 	private KeyGenerator keygen;
@@ -24,17 +23,17 @@ public class EncrypDES {
 	//该字节数组负责保存加密的结果
 	private byte[] cipherByte;
 	
-	public EncrypDES() throws NoSuchAlgorithmException, NoSuchPaddingException{
+	public EncrypAESTestKey() throws NoSuchAlgorithmException, NoSuchPaddingException{
 		//Security.addProvider(new com.sun.crypto.provider.SunJCE());
 		//实例化支持DES算法的密钥生成器(算法名称命名需按规定，否则抛出异常)
-		keygen = KeyGenerator.getInstance("DES");
+		 String password="testkey";
+		keygen = KeyGenerator.getInstance("AES");
+		//要生成多少位，只需要修改这里即可128, 192或256
+		keygen.init(128, new SecureRandom(password.getBytes()));
 		//生成密钥
-		String password="testkey";
-		// 这里只能是56
-		keygen.init(56, new SecureRandom(password.getBytes()));
 		deskey = keygen.generateKey();
 		//生成Cipher对象,指定其支持的DES算法
-		c = Cipher.getInstance("DES");
+		c = Cipher.getInstance("AES");
 	}
 	
 	/**
@@ -46,7 +45,7 @@ public class EncrypDES {
 	 * @throws IllegalBlockSizeException
 	 * @throws BadPaddingException
 	 */
-	public byte[] Encrytor(String str) throws InvalidKeyException,
+	public byte[] Encrytor(String str) throws Exception,
 			IllegalBlockSizeException, BadPaddingException {
 		// 根据密钥，对Cipher对象进行初始化，ENCRYPT_MODE表示加密模式
 		c.init(Cipher.ENCRYPT_MODE, deskey);
@@ -65,7 +64,7 @@ public class EncrypDES {
 	 * @throws IllegalBlockSizeException
 	 * @throws BadPaddingException
 	 */
-	public byte[] Decryptor(byte[] buff) throws InvalidKeyException,
+	public byte[] Decryptor(byte[] buff) throws Exception,
 			IllegalBlockSizeException, BadPaddingException {
 		// 根据密钥，对Cipher对象进行初始化，DECRYPT_MODE表示加密模式
 		c.init(Cipher.DECRYPT_MODE, deskey);
@@ -82,7 +81,7 @@ public class EncrypDES {
 	 * @throws InvalidKeyException 
 	 */
 	public static void main(String[] args) throws Exception {
-		EncrypDES de1 = new EncrypDES();
+		EncrypAESTestKey de1 = new EncrypAESTestKey();
 		String msg ="郭XX-搞笑相声全集";
 		byte[] encontent = de1.Encrytor(msg);
 		byte[] decontent = de1.Decryptor(encontent);
